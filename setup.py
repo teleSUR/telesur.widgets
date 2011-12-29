@@ -37,6 +37,8 @@ setup(name='telesur.widgets',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'collective.formwidget.relationfield',
+          'collective.nitf',
       ],
       extras_require={
         'test': ['plone.app.testing'],
