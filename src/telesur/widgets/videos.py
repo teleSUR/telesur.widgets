@@ -12,6 +12,10 @@ from collective.formwidget.relationfield.widget \
                                  import ContentRelationWidget as BaseWidget
 
 
+from plone.app.layout.navigation.interfaces import INavtreeStrategy
+from plone.app.layout.navigation.navtree import buildFolderTree
+
+
 class AddVideosWidget(BaseWidget):
     display_template = ViewPageTemplateFile('templates/add_videos_widget.pt')
 
