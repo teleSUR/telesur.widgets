@@ -25,21 +25,22 @@ class AddVideosWidget(BaseWidget):
 
     def render_tree(self, limit=10):
         data = []
-        url = "http://multimedia.tlsur.net/api/clip/?ultimo=%s"%limit
+        url = "http://multimedia.tlsur.net/api/clip/?ultimo=%s&detalle=basico"%limit
 
         video_api = getMultiAdapter((self.context, self.request), name="video_api")
 
         json = video_api.get_json(url)
 
         for entry in json:
-            if entry['archivo_url']:
+            if entry['api_url']:
                 # Este checkeo no debería ser necesario. Todos los videos
                 # deberían tener un URL válido
                 data.append(
                         {
-                            'video_url' : entry['archivo_url'],
+                            'video_url' : entry['api_url'],
                             'video_thumb' : entry['thumbnail_mediano'],
                             'selectable' : True,
+                            'title' : entry['titulo'],
                             'description' : entry['descripcion'],
                         }
                     )

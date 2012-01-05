@@ -4,6 +4,7 @@
                           video_thumb         node/video_thumb;
                           selectable          node/selectable;
                           description         node/description;
+                          title               node/title;
                           li_folder_class     python:'';
                           li_selectable_class python:selectable and ' selectable' or '';
                           li_collapsed_class  python:' collapsed';
@@ -11,9 +12,9 @@
             <li tal:attributes="class string: draggable navTreeItem visualNoMarker${li_class}">
                 <a tal:attributes="href video_url;
                                     rel level;
-                                    title description;">
+                                    title title;">
                 <img tal:attributes="src video_thumb" />
-                <span tal:content="description">Selected Item Title</span>
+                <span tal:content="title">Selected Item Title</span>
                 </a>
 
             </li>
