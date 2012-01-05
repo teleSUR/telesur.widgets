@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts">
+
+   <!-- Esto es provisorio hasta que veamos una mejor implementacion -->
+  <javascript id="++resource++telesur.widgets/addvideos.js"
+      cacheable="True" compression="none" cookable="True" enabled="True"
+      expression="" inline="False" />
+
+</object>
