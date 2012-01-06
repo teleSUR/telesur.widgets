@@ -1,7 +1,6 @@
 *.egg-info
 *.mo
 *.pyc
-*~
 .installed.cfg
 .mr.developer.cfg
 bin/
@@ -9,4 +8,6 @@ develop-eggs/
 downloads/
 eggs/
 parts/
+src/collective.formwidget.relationfield/
+src/collective.nitf/
 var/
