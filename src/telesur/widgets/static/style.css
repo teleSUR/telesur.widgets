@@ -1,0 +1,24 @@
+.contenttreeWindow {
+}
+.contenttreeWindow .contenttreeDroppable,
+.contenttreeWindow .contenttreeWidget {
+    position:relative;
+    top:0px;
+    bottom:auto;
+    overflow:auto;
+    margin-top:20px;
+}
+.contenttreeWindow .contenttreeDroppable {
+    width:40%;
+}
+
+.contenttreeWindow .contenttreeWidget {
+    width:50%;
+    height:70%;
+    position:static;
+    float:right;
+}
+.contenttreeWindow .contenttreeWidget img {
+    max-width:130px;
+    padding-right:10px;
+}
