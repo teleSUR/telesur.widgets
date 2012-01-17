@@ -3,8 +3,6 @@
 import unittest2 as unittest
 
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import login
 from plone.app.testing import setRoles
 
 from telesur.widgets.config import PROJECTNAME
@@ -37,16 +35,15 @@ class UninstallTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        login(self.portal, TEST_USER_NAME)
+        self.qi = getattr(self.portal, 'portal_quickinstaller')
+        self.qi.uninstallProducts(products=[PROJECTNAME])
 
     def test_uninstalled(self):
-        qi = getattr(self.portal, 'portal_quickinstaller')
-        qi.uninstallProducts(products=[PROJECTNAME])
-        self.assertTrue(not qi.isProductInstalled(PROJECTNAME))
+        self.assertFalse(self.qi.isProductInstalled(PROJECTNAME))
 
-    def test_javascript_installed(self):
+    def test_javascript_removed(self):
         js = getattr(self.portal, 'portal_javascripts')
-        self.assertTrue(JS not in js.getResourceIds(),
+        self.assertFalse(JS in js.getResourceIds(),
                         'javascript not removed')
 
 
