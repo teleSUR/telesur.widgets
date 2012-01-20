@@ -31,7 +31,7 @@ setup(name='telesur.widgets',
       url='https://github.com/desarrollotv/telesur.widgets',
       license='GPL',
       packages=find_packages('src'),
-      package_dir = {'': 'src'},
+      package_dir={'': 'src'},
       namespace_packages=['telesur'],
       include_package_data=True,
       zip_safe=False,
@@ -44,7 +44,7 @@ setup(name='telesur.widgets',
         'test': ['plone.app.testing'],
         },
       entry_points="""
-  	  [z3c.autoinclude.plugin]
-  	  target = plone
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )

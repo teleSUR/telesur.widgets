@@ -6,18 +6,12 @@ from zope.interface import implementer
 
 import z3c.form.interfaces
 import z3c.form.widget
-from z3c.form import field
 
 from collective.formwidget.relationfield.widget \
-                                 import ContentRelationWidget as BaseWidget
+    import ContentRelationWidget as BaseWidget
 
-
-from plone.app.layout.navigation.interfaces import INavtreeStrategy
-from plone.app.layout.navigation.navtree import buildFolderTree
-
-from telesur.api.interfaces import IPortalAPI
-from zope.component import queryUtility
 from zope.i18n import translate
+
 
 class AddVideosWidget(BaseWidget):
     display_template = ViewPageTemplateFile('templates/add_videos_widget.pt')
@@ -25,7 +19,7 @@ class AddVideosWidget(BaseWidget):
 
     def render_tree(self, limit=10):
         data = []
-        url = "http://multimedia.tlsur.net/api/clip/?ultimo=%s&detalle=basico"%limit
+        url = "http://multimedia.tlsur.net/api/clip/?ultimo=%s&detalle=basico" % limit
 
         video_api = getMultiAdapter((self.context, self.request), name="video_api")
 
@@ -37,16 +31,15 @@ class AddVideosWidget(BaseWidget):
                 # deberían tener un URL válido
                 data.append(
                         {
-                            'video_url' : entry['api_url'],
-                            'video_thumb' : entry['thumbnail_mediano'],
-                            'selectable' : True,
-                            'title' : entry['titulo'],
-                            'description' : entry['descripcion'],
+                            'video_url': entry['api_url'],
+                            'video_thumb': entry['thumbnail_mediano'],
+                            'selectable': True,
+                            'title': entry['titulo'],
+                            'description': entry['descripcion'],
                         }
                     )
-                    
-        return self.recurse_template(children=data,level=1)
 
+        return self.recurse_template(children=data, level=1)
 
     def js_extra(self):
         form_url = self.request.getURL()
@@ -105,7 +98,7 @@ class AddVideosWidget(BaseWidget):
                        default=u'Browse for items',
                        domain='collective.formwidget.relationfield',
                        context=self.request))
-    
+
 
 @implementer(z3c.form.interfaces.IFieldWidget)
 def AddVideosFieldWidget(field, request):
