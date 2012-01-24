@@ -31,9 +31,31 @@ Descargas
 
 Usted puede encontrar la versión de desarrollo del paquete ``telesur.widgets`` en el `repositorio desarrollotv`_ en Github.com.
 
+Autor(es) Original(es)
+======================
+
+* Joaquin Rosales aka saibatizoku
+
+Colaboraciones impresionantes
+=============================
+
+* Héctor Velarde aka hvelarde
+
+* Franco Pellegrini aka frapell
+
+* Juan A. Diaz aka nueces
+
+* Silvestre Huens aka Quimera
+
+* Leonardo J .Caballero G. aka macagua
+
+Para una lista actualizada de todo los colaboradores visite: https://github.com/desarrollotv/telesur.widgets/contributors
+
 .. _Widgets: http://es.wikipedia.org/wiki/Widgets
 .. _sitio Web de teleSUR: http://telesurtv.net/
 .. _sitio web Video teleSUR: http://multimedia.telesurtv.net/
 .. _telesur.api: https://github.com/desarrollotv/telesur.api
+.. _RESTful API: https://github.com/desarrollotv/diftv/wiki/RESTful-API
+.. _REST: http://es.wikipedia.org/wiki/Representational_State_Transfer
 .. _repositorio desarrollotv: https://github.com/desarrollotv/telesur.widgets
 
