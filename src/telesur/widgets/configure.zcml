@@ -13,6 +13,13 @@
       directory="static"
       />
 
+  <browser:page
+      name="nitf-autocomplete-search"
+      for="plone.formwidget.autocomplete.interfaces.IAutocompleteWidget"
+      permission="zope.Public"
+      class=".nitf.ContentRelationAutocomplete"
+      />
+
   <genericsetup:registerProfile
       name="default"
       title="telesur.widgets"
