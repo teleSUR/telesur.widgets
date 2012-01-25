@@ -31,7 +31,7 @@ class FilterRelatedNitf(BrowserView):
                                           query=base_query,
                                           limit=10)
 
-        return result
+        return result.strip()
 
 
 class ContentRelationAutocomplete(AutocompleteSearch):
