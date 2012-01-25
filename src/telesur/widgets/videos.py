@@ -67,7 +67,9 @@ class AddVideosWidget(BaseWidget):
                 $('#%(id)s-contenttree-window').find('.contentTreeCancel').unbind('click').click(function () {
                     $(this).contentTreeCancel();
                 });
-                $('#%(id)s-widgets-query').after(" ");
+                if ($('#%(id)s-widgets-query')[0] !== undefined){
+                    $('#%(id)s-widgets-query').after(" ");
+                }
                 $('#%(id)s-contenttree').contentTree(
                     {
                         script: '%(url)s',
