@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Products.Five.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface import implementer
 
@@ -13,6 +14,25 @@ from Products.CMFCore.utils import getToolByName
     
 from plone.formwidget.autocomplete.widget import AutocompleteSearch
 from plone.app.vocabularies.catalog import parse_query
+
+
+class FilterRelatedNitf(BrowserView):
+
+    def __call__(self, query=None):
+        base_query = {'portal_type': 'collective.nitf.content',
+                      'sort_on': 'modified',
+                      'sort_order': 'reverse',
+                      'review_state': 'published'}
+
+        if query:
+            base_query.update(parse_query(query))
+
+        result = self.context.render_tree(relPath='articulos',
+                                          query=base_query,
+                                          limit=10)
+
+        return result
+
 
 class ContentRelationAutocomplete(AutocompleteSearch):
 
@@ -63,6 +83,18 @@ class ContentRelationWidget(BaseWidget):
         return "%s/++widget++%s/@@nitf-autocomplete-search" % (
             form_url, self.name )
 
+    def filter_js(self):
+        form_url = self.request.getURL()
+        url = "%s/++widget++%s/@@filter-related-nitf" % (form_url, self.name)
+
+        return """\
+        function filterNITF(){
+        var query = document.getElementById('form-widgets-search-nitf-related').value;
+        $("ul#related-content-nitf").load('%(url)s',{'query':query});
+        }
+        """ % dict(url=url)
+
+            
 @implementer(z3c.form.interfaces.IFieldWidget)
 def ContentRelationFieldWidget(field, request):
     return z3c.form.widget.FieldWidget(field, ContentRelationWidget(request))

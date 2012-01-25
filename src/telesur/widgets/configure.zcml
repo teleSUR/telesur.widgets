@@ -20,6 +20,13 @@
       class=".nitf.ContentRelationAutocomplete"
       />
 
+  <browser:page
+      name="filter-related-nitf"
+      for="plone.formwidget.contenttree.interfaces.IContentTreeWidget"
+      permission="zope.Public"
+      class=".nitf.FilterRelatedNitf"
+      />
+      
   <genericsetup:registerProfile
       name="default"
       title="telesur.widgets"
