@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Products.Five.browser import BrowserView
 from zope.component import getMultiAdapter
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface import implementer
@@ -13,13 +14,33 @@ from collective.formwidget.relationfield.widget \
 from zope.i18n import translate
 
 
+class FilterVideos(BrowserView):
+
+    def __call__(self, query=None):
+        # XXX: Este import hay que tenerlo aqui dentro porque sino da un
+        # loop. Lo óptimo, sería tenerlo en un archivo aparte, browser.py o
+        # similar.
+        from telesur.api.behavior import IAddableVideos
+        field = IAddableVideos.get('relatedVideos')
+        request = self.request
+
+        widget = z3c.form.interfaces.IFieldWidget(field,
+                                                  AddVideosWidget(request))
+        
+        result = widget.render_tree(query=query,limit=10)
+
+        return result.strip()
+
 class AddVideosWidget(BaseWidget):
     display_template = ViewPageTemplateFile('templates/add_videos_widget.pt')
     recurse_template = ViewPageTemplateFile('templates/recurse_videos_widget.pt')
 
-    def render_tree(self, limit=10):
+    def render_tree(self, query=None, limit=10):
         data = []
-        url = "http://multimedia.tlsur.net/api/clip/?ultimo=%s&detalle=basico" % limit
+        if query:
+            url = "http://multimedia.tlsur.net/api/clip/?texto=%s&limit=%s&detalle=basico" % (query, limit)
+        else:
+            url = "http://multimedia.tlsur.net/api/clip/?ultimo=%s&detalle=basico" % limit
 
         video_api = getMultiAdapter((self.context, self.request), name="video_api")
 
@@ -59,6 +80,7 @@ class AddVideosWidget(BaseWidget):
                             var parent = $(this).parents("*[id$='-autocomplete']")
                             var window = parent.siblings("*[id$='-contenttree-window']")
                             window.showDialog();
+                            firstLoad();
                         }).insertAfter($(this));
                 });
                 $('#%(id)s-contenttree-window').find('.contentTreeAddVideos').unbind('click').click(function () {
@@ -100,6 +122,22 @@ class AddVideosWidget(BaseWidget):
                        default=u'Browse for items',
                        domain='collective.formwidget.relationfield',
                        context=self.request))
+
+
+    def filter_js(self):
+        form_url = self.request.getURL()
+        url = "%s/@@filter-related-videos" % self.context.absolute_url()
+
+        return """\
+        function filterVideos(){
+        var query = document.getElementById('form-widgets-search-videos').value;
+        $("ul#related-content-videos").load('%(url)s',{'query':query});
+        }
+
+        function firstLoad(){
+        $("ul#related-content-videos").load('%(url)s',{});
+        }
+        """ % dict(url=url)
 
 
 @implementer(z3c.form.interfaces.IFieldWidget)

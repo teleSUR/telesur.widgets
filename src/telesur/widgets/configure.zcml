@@ -26,6 +26,13 @@
       permission="zope.Public"
       class=".nitf.FilterRelatedNitf"
       />
+
+  <browser:page
+      name="filter-related-videos"
+      for="*"
+      permission="zope.Public"
+      class=".videos.FilterVideos"
+      />
       
   <genericsetup:registerProfile
       name="default"

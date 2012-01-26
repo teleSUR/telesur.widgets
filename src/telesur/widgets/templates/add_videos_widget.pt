@@ -20,8 +20,18 @@
             tal:attributes="id string:${view/id}-contenttree"
             tal:define="related_query python:{};">
             <h3 class="ui-widget-header">Videos recientes</h3>
-            <ul class="navTree navTreeLevel0">
-                <li tal:replace="structure python:view.render_tree(limit=10)" />
+            <script type="text/javascript" tal:content="structure view/filter_js"></script>
+            <input type="text"
+                   name="query"
+                   value=""
+                   id="form-widgets-search-videos"
+                   name="form.widgets.search.videos"
+                   class="text-widget textline-field kssattr-formname-++add++collective.nitf.content kssattr-fieldname-form.widgets.search.videos kssattr-fieldset-0">
+                   <!-- Las clases que comienzan con kssattr son para que el field no explote cuando se llama la validacion de kss -->
+            <input type="submit" value="Buscar" onclick="filterVideos(); return false;">
+            
+            <ul class="navTree navTreeLevel0" id="related-content-videos">
+                <!--<li tal:replace="structure python:view.render_tree(limit=10)" />-->
             </ul>
         </div>
         <div class="contenttreeWindowActions">
