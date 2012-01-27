@@ -2,16 +2,18 @@
 
 function addVideoToNITF(video){
     title = video.text();
-    url = video.attr('href');
-    jQuery.ajax({type: 'POST',
-                    url: '@@add-video-to-context',
-                    async : false,
-                    data: {'title':title,
-                           'url':url},
-                    success: function(results){
-                        // Necesitamos hacer algo con el resultado ?
-                            }
-                });
+    url = video.attr('video_url');
+    if (url !== undefined ){
+        jQuery.ajax({type: 'POST',
+                        url: '@@add-video-to-context',
+                        async : false,
+                        data: {'title':title,
+                            'url':url},
+                        success: function(results){
+                            // Necesitamos hacer algo con el resultado ?
+                                }
+                    });
+    }
 }
 
 if(jQuery) (function($){
