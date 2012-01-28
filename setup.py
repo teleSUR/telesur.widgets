@@ -4,7 +4,7 @@ import os
 version = '1.0'
 
 long_description = (
-    open('README.txt').read()
+    open('README.rst').read()
     + '\n' +
     'Contributors\n'
     '============\n'
@@ -21,7 +21,7 @@ setup(name='telesur.widgets',
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        "Framework :: Plone",
+        "Framework :: Plone :: 4.1",
         "Programming Language :: Python",
         ],
       keywords='',
