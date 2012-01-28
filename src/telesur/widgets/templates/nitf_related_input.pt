@@ -15,7 +15,7 @@
         <div class="contenttreeDroppable"><h3 class="ui-widget-header" i18n:translate="">Newly Related Contents</h3><ul id="content-droppable"></ul></div>
         <div class="contenttreeWidget"
             tal:attributes="id string:${view/id}-contenttree"
-            tal:define="related_query python:{'portal_type': 'collective.nitf.content','sort_on': 'modified','sort_order': 'reverse'};">
+            tal:define="related_query python:{'portal_type': 'collective.nitf.content','sort_on': 'modified','sort_order': 'reverse','review_state': 'published'};">
             <h3 class="ui-widget-header">Noticias recientes</h3>
             <ul class="navTree navTreeLevel0">
                 <li tal:replace="structure python:view.render_tree(relPath='articulos',query=related_query,limit=10)" />
