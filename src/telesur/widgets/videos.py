@@ -12,6 +12,7 @@ from collective.formwidget.relationfield.widget \
     import ContentRelationWidget as BaseWidget
 
 from zope.i18n import translate
+from DateTime import DateTime
 
 
 class FilterVideos(BrowserView):
@@ -35,6 +36,7 @@ class AddVideosWidget(BaseWidget):
     display_template = ViewPageTemplateFile('templates/add_videos_widget.pt')
     recurse_template = ViewPageTemplateFile('templates/recurse_videos_widget.pt')
 
+
     def render_tree(self, query=None, limit=10):
         data = []
         if query:
@@ -57,6 +59,7 @@ class AddVideosWidget(BaseWidget):
                             'selectable': True,
                             'title': entry['titulo'],
                             'description': entry['descripcion'],
+                            'date': DateTime(entry['fecha']).Date(),
                         }
                     )
 
