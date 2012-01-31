@@ -23,3 +23,11 @@
     max-width:130px;
     padding-right:10px;
 }
+
+#show-more-results.show_more {
+    cursor: pointer;
+    margin: 20px;
+    text-align: center;
+    background: aliceBlue;
+    font-size: 20px;
+}

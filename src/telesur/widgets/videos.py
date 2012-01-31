@@ -17,7 +17,7 @@ from DateTime import DateTime
 
 class FilterVideos(BrowserView):
 
-    def __call__(self, query=None):
+    def __call__(self, query=None, offset=0):
         # XXX: Este import hay que tenerlo aqui dentro porque sino da un
         # loop. Lo óptimo, sería tenerlo en un archivo aparte, browser.py o
         # similar.
@@ -27,8 +27,10 @@ class FilterVideos(BrowserView):
 
         widget = z3c.form.interfaces.IFieldWidget(field,
                                                   AddVideosWidget(request))
-        
-        result = widget.render_tree(query=query,limit=10)
+
+        # XXX: REDO
+        widget.context = self.context
+        result = widget.render_tree(query=query, limit=10, offset=int(offset))
 
         return result.strip()
 
@@ -37,12 +39,14 @@ class AddVideosWidget(BaseWidget):
     recurse_template = ViewPageTemplateFile('templates/recurse_videos_widget.pt')
 
 
-    def render_tree(self, query=None, limit=10):
+    def render_tree(self, query=None, limit=10, offset=0):
         data = []
+
+        url = "http://multimedia.tlsur.net/api/clip/?offset=%s&limit=%s&detalle=basico" % (offset, limit)
+        
         if query:
-            url = "http://multimedia.tlsur.net/api/clip/?texto=%s&limit=%s&detalle=basico" % (query, limit)
-        else:
-            url = "http://multimedia.tlsur.net/api/clip/?limit=%s&detalle=basico" % limit
+            url = "%s&texto=%s" % (url, query)
+        
 
         video_api = getMultiAdapter((self.context, self.request), name="video_api")
 
@@ -62,8 +66,8 @@ class AddVideosWidget(BaseWidget):
                             'date': DateTime(entry['fecha']).Date(),
                         }
                     )
-
-        return self.recurse_template(children=data, level=1)
+        
+        return self.recurse_template(children=data, level=1, offset=offset+limit)
 
     def js_extra(self):
         form_url = self.request.getURL()
@@ -150,6 +154,31 @@ class AddVideosWidget(BaseWidget):
         function firstLoad(){
         showLoadSpinner();
         $("ul#related-content-videos").load('%(url)s',{}, hideLoadSpinner);
+        }
+
+        function showMoreSpinner() {
+        $("#videos-more-spinner").css("display", "inline");
+        }
+
+        function hideMoreSpinner() {
+        $("#videos-more-spinner").css("display", "none");
+        }
+
+        function appendMoreVideos(offset) {
+            $("#show-more-results").remove();
+            showMoreSpinner();
+            var query = document.getElementById('form-widgets-search-videos').value;
+
+            jQuery.ajax({type: 'POST',
+                        url: '@@filter-related-videos',
+                        async : true,
+                        data: {'query':query,
+                                'offset':offset},
+                        success: function(results){
+                                hideMoreSpinner();
+                                $("ul#related-content-videos").append(results);
+                                }
+                            });
         }
 
         """ % dict(url=url)

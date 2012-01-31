@@ -40,6 +40,13 @@
             <ul class="navTree navTreeLevel0" id="related-content-videos">
                 <!--<li tal:replace="structure python:view.render_tree(limit=10)" />-->
             </ul>
+
+            <div style="text-align:center;">
+                <img tal:attributes="src string:${portal_url}/spinner.gif"
+                        alt=""
+                        id="videos-more-spinner"
+                    style="display:none;"/>
+            </div>
         </div>
         <div class="contenttreeWindowActions">
             <input class="context contentTreeAddVideos" type="button" i18n:attributes="value label_contenttree_add" value="Add"/> <input class="standalone contentTreeCancel" i18n:attributes="value label_contenttree_cancel" type="button" value="Cancel"/>

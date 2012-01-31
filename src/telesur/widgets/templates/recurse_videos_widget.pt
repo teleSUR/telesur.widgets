@@ -1,6 +1,8 @@
 <tal:master define="level options/level|python:0;
                     children options/children | nothing;
-                    show_more options/show_more | nothing;">
+                    offset options/offset | nothing;
+                    portal_state context/@@plone_portal_state;
+                    portal_url portal_state/portal_url;">
                     
     <tal:navitem repeat="node children">
         <tal:defs define="video_url           node/video_url;
@@ -26,8 +28,7 @@
         </tal:defs>
     </tal:navitem>
     <div class="show_more" id="show-more-results">
-        <a href="#"
-           onclick="appendMoreVideos(show_more);return false;">
+        <a tal:attributes="onclick string:appendMoreVideos(${offset});">
            Mostrar más
         </a>
     </div>
