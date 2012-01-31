@@ -42,7 +42,7 @@ class AddVideosWidget(BaseWidget):
         if query:
             url = "http://multimedia.tlsur.net/api/clip/?texto=%s&limit=%s&detalle=basico" % (query, limit)
         else:
-            url = "http://multimedia.tlsur.net/api/clip/?ultimo=%s&detalle=basico" % limit
+            url = "http://multimedia.tlsur.net/api/clip/?limit=%s&detalle=basico" % limit
 
         video_api = getMultiAdapter((self.context, self.request), name="video_api")
 
@@ -132,14 +132,26 @@ class AddVideosWidget(BaseWidget):
         url = "%s/@@filter-related-videos" % self.context.absolute_url()
 
         return """\
+        function showLoadSpinner() {
+        $("#videos-loading-spinner").css("display", "inline");
+        }
+        
+        function hideLoadSpinner() {
+        $("#videos-loading-spinner").css("display", "none");
+        }
+
         function filterVideos(){
+        showLoadSpinner();
         var query = document.getElementById('form-widgets-search-videos').value;
-        $("ul#related-content-videos").load('%(url)s',{'query':query});
+        $("ul#related-content-videos").load('%(url)s',{'query':query}, hideLoadSpinner);
+        
         }
 
         function firstLoad(){
-        $("ul#related-content-videos").load('%(url)s',{});
+        showLoadSpinner();
+        $("ul#related-content-videos").load('%(url)s',{}, hideLoadSpinner);
         }
+
         """ % dict(url=url)
 
 

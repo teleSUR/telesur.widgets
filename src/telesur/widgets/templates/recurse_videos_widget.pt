@@ -1,4 +1,7 @@
-<tal:master define="level options/level|python:0; children options/children | nothing;">
+<tal:master define="level options/level|python:0;
+                    children options/children | nothing;
+                    show_more options/show_more | nothing;">
+                    
     <tal:navitem repeat="node children">
         <tal:defs define="video_url           node/video_url;
                           video_thumb         node/video_thumb;
@@ -22,4 +25,10 @@
             </li>
         </tal:defs>
     </tal:navitem>
+    <div class="show_more" id="show-more-results">
+        <a href="#"
+           onclick="appendMoreVideos(show_more);return false;">
+           Mostrar más
+        </a>
+    </div>
 </tal:master>
