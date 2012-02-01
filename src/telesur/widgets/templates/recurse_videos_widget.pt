@@ -18,7 +18,7 @@
             <li tal:attributes="class string: draggable navTreeItem visualNoMarker${li_class}">
 
                 <span tal:content="date">Fecha</span>
-                <a tal:attributes="video_url video_url;
+                <a tal:attributes="href video_url;
                                    rel level;
                                    title title;">
                 <img tal:attributes="src video_thumb" />

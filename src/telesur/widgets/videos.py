@@ -136,6 +136,39 @@ class AddVideosWidget(BaseWidget):
         url = "%s/@@filter-related-videos" % self.context.absolute_url()
 
         return """\
+        function removeVideoFromDroppable( $item ) {
+            var $dropping = jq('#content-droppable');
+            var $listing = jq('.contenttreeWidget .navTree');
+            var $item_href = $item.find('a.ui-widget-content').attr('href');
+            var $listing_item = $('.contenttreeWidget a@[href='+$item_href+']').parent();
+            $listing_item.removeClass('navTreeCurrentItem');
+            $listing_item.addClass("draggable");
+            $item.remove();
+        }
+
+        function unbindClickEvent() {
+
+            $('ul#content-droppable').unbind('click').click(function(event) {
+                var $item = $(this);
+                var $target = $(event.target);
+                var $parent = $($target).parent();
+
+                if ( $target.is("a.ui-icon-trash") ) {
+                    removeVideoFromDroppable($parent);
+                    return false
+                    }
+                if ( $target.is("a.ui-widget-content") ) {
+                    return false
+                    }
+            });
+
+            $('ul#related-content-videos > li > a').unbind('click').click(function(event) {
+                return false
+
+            });
+
+        }
+
         function showLoadSpinner() {
         $("#videos-loading-spinner").css("display", "inline");
         }
@@ -144,16 +177,20 @@ class AddVideosWidget(BaseWidget):
         $("#videos-loading-spinner").css("display", "none");
         }
 
+        function afterLoad() {
+        unbindClickEvent();
+        hideLoadSpinner();
+        }
+        
         function filterVideos(){
         showLoadSpinner();
         var query = document.getElementById('form-widgets-search-videos').value;
-        $("ul#related-content-videos").load('%(url)s',{'query':query}, hideLoadSpinner);
-        
+        $("ul#related-content-videos").load('%(url)s',{'query':query}, afterLoad);
         }
 
         function firstLoad(){
         showLoadSpinner();
-        $("ul#related-content-videos").load('%(url)s',{}, hideLoadSpinner);
+        $("ul#related-content-videos").load('%(url)s',{}, afterLoad);
         }
 
         function showMoreSpinner() {
@@ -177,6 +214,7 @@ class AddVideosWidget(BaseWidget):
                         success: function(results){
                                 hideMoreSpinner();
                                 $("ul#related-content-videos").append(results);
+                                unbindClickEvent();
                                 }
                             });
         }
