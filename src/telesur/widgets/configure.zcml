@@ -8,6 +8,9 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <adapter factory=".nitf.NITFTreeStrategy"
+           name="nitf-tree-strategy"/>
+
   <browser:resourceDirectory
       name="telesur.widgets"
       directory="static"
