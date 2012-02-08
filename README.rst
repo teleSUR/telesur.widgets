@@ -55,5 +55,7 @@ Para una lista actualizada de todo los colaboradores visite: https://github.com/
 .. _sitio Web de teleSUR: http://telesurtv.net/
 .. _sitio web Video teleSUR: http://multimedia.telesurtv.net/
 .. _telesur.api: https://github.com/desarrollotv/telesur.api
+.. _RESTful API: https://github.com/desarrollotv/diftv/wiki/RESTful-API
+.. _REST: http://es.wikipedia.org/wiki/Representational_State_Transfer
 .. _repositorio desarrollotv: https://github.com/desarrollotv/telesur.widgets
 
