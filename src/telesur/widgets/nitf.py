@@ -12,7 +12,7 @@ from collective.formwidget.relationfield.widget \
     import ContentRelationWidget as BaseWidget
 
 from Products.CMFCore.utils import getToolByName
-    
+
 from plone.formwidget.autocomplete.widget import AutocompleteSearch
 from plone.app.vocabularies.catalog import parse_query
 
@@ -23,8 +23,9 @@ from plone.formwidget.contenttree.navtree import NavtreeStrategy
 
 from DateTime import DateTime
 
+
 class NITFTreeStrategy(NavtreeStrategy):
-    
+
     def decoratorFactory(self, node):
         new_node = super(NITFTreeStrategy, self).decoratorFactory(node)
         # Pongamos la fecha en un objeto "usable"
@@ -33,7 +34,7 @@ class NITFTreeStrategy(NavtreeStrategy):
         new_node['section'] = getattr(node['item'], 'section', "")
 
         return new_node
-        
+
 
 class FilterRelatedNitf(BrowserView):
 
@@ -70,24 +71,25 @@ class ContentRelationAutocomplete(AutocompleteSearch):
 
         portal_tool = getToolByName(self.context.form.context, "portal_url")
         portal_path = portal_tool.getPortalPath()
-        
+
         custom_query = parse_query(query, portal_path)
-        custom_query.update({'portal_type':['collective.nitf.content'],
-                             'sort_on':'modified',
-                             'sort_order':'reverse',
-                             'review_state':'published'})
+        custom_query.update({'portal_type': ['collective.nitf.content'],
+                             'sort_on': 'modified',
+                             'sort_order': 'reverse',
+                             'review_state': 'published'})
 
         portal_catalog = getToolByName(self.context.form.context,
                                        "portal_catalog")
 
         brains = portal_catalog(**custom_query)
-        
+
         source = self.context.bound_source
         results = (source.getTermByBrain(brain, real_value=False)
                    for brain in brains)
 
         return '\n'.join(["%s|%s" % (t.token, t.title or t.token)
                             for t in results])
+
 
 class ContentRelationWidget(BaseWidget):
     """
@@ -96,7 +98,6 @@ class ContentRelationWidget(BaseWidget):
     recurse_template = ViewPageTemplateFile('templates/nitf_related_recurse.pt')
 
     def render_tree(self, relPath=None, query=None, limit=10, offset=0):
-        content = self.context
         portal_state = getMultiAdapter((self.context, self.request),
                                           name=u'plone_portal_state')
         portal = portal_state.portal()
@@ -112,16 +113,16 @@ class ContentRelationWidget(BaseWidget):
             root_path = portal_state.navigation_root_path()
             rel_path = root_path + '/' + relPath
             strategy.rootPath = rel_path
-        
+
         data = buildFolderTree(portal,
                                obj=portal,
                                query=source.navigation_tree_query,
                                strategy=strategy)
 
         return self.recurse_template(
-                        children=data.get('children', [])[offset:offset+limit],
+                        children=data.get('children', [])[offset:offset + limit],
                         level=1,
-                        offset=offset+limit)
+                        offset=offset + limit)
 
     def autocomplete_url(self):
         """
@@ -129,8 +130,7 @@ class ContentRelationWidget(BaseWidget):
         """
         form_url = self.request.getURL()
 
-        return "%s/++widget++%s/@@nitf-autocomplete-search" % (
-            form_url, self.name )
+        return "%s/++widget++%s/@@nitf-autocomplete-search" % (form_url, self.name)
 
     def filter_js(self):
         form_url = self.request.getURL()
@@ -141,7 +141,7 @@ class ContentRelationWidget(BaseWidget):
         var query = document.getElementById('form-widgets-search-nitf-related').value;
         $("ul#related-content-nitf").load('%(url)s',{'query':query});
         }
-        
+
         function removeNITFFromDroppable( $item ) {
             var $dropping = jq('#content-droppable');
             var $listing = jq('.contenttreeWidget .navTree');
@@ -174,7 +174,7 @@ class ContentRelationWidget(BaseWidget):
             });
 
         }
-        
+
         function appendMoreNitf(offset) {
             $("#show-more-results").remove();
             var query = document.getElementById('form-widgets-search-nitf-related').value;
@@ -192,7 +192,7 @@ class ContentRelationWidget(BaseWidget):
         }
         """ % dict(url=url)
 
-            
+
 @implementer(z3c.form.interfaces.IFieldWidget)
 def ContentRelationFieldWidget(field, request):
     return z3c.form.widget.FieldWidget(field, ContentRelationWidget(request))
