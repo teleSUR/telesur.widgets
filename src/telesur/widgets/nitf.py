@@ -23,6 +23,8 @@ from plone.formwidget.contenttree.navtree import NavtreeStrategy
 
 from DateTime import DateTime
 
+from collective.nitf import _
+
 
 class NITFTreeStrategy(NavtreeStrategy):
 
@@ -31,7 +33,11 @@ class NITFTreeStrategy(NavtreeStrategy):
         # Pongamos la fecha en un objeto "usable"
         new_node['creation_date'] = DateTime(new_node['creation_date'])
         # Y agregamos la sección del NITF
-        new_node['section'] = getattr(node['item'], 'section', "")
+        new_node['section'] = getattr(node['item'], 'section', '')
+        # el género hay que traducirlo
+        new_node['genre'] = getattr(node['item'], 'genre', '')
+        if new_node['genre'] != '':
+            new_node['genre'] = _(new_node['genre'])
 
         return new_node
 
