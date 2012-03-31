@@ -15,7 +15,7 @@
         <div class="contenttreeDroppable"><h3 class="ui-widget-header" i18n:translate="">Newly Related Contents</h3><ul id="content-droppable"></ul></div>
         <div class="contenttreeWidget"
             tal:attributes="id string:${view/id}-contenttree"
-            tal:define="related_query python:{'portal_type': 'collective.nitf.content','sort_on': 'modified','sort_order': 'reverse','review_state': 'published'};">
+            tal:define="related_query python:{'portal_type': 'collective.nitf.content','sort_on': 'modified','sort_order': 'reverse','review_state': 'published', 'depth':4};">
             <h3 class="ui-widget-header">Noticias recientes</h3>
             <script type="text/javascript" tal:content="structure view/filter_js"></script>
             <input type="text"
@@ -26,7 +26,7 @@
                    class="text-widget textline-field kssattr-formname-++add++collective.nitf.content kssattr-fieldname-form.widgets.search.nitf.related kssattr-fieldset-0">
                    <!-- Las clases que comienzan con kssattr son para que el field no explote cuando se llama la validacion de kss -->
             <input type="submit" value="Buscar" onclick="filterNITF(); return false;">
-            
+
             <ul class="navTree navTreeLevel0" id="related-content-nitf">
                 <li tal:replace="structure python:view.render_tree(relPath='articulos',query=related_query,limit=10)" />
             </ul>
