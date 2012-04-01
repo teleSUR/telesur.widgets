@@ -445,7 +445,7 @@ class ContentRelationWidget(BaseWidget):
                 if 'children' in data_temp[elem]:
                     data['children'] += data_temp[elem]['children']
 
-
+        data['children'].sort(key=lambda x:x['creation_date'], reverse=True)
         return self.recurse_template(
                         children=data.get('children', [])[offset:offset + limit],
                         level=1,
