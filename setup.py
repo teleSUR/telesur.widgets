@@ -3,27 +3,27 @@ import os
 
 version = '1.0'
 
-long_description = (
-    open('README.rst').read()
-    + '\n' +
-    open('docs/CREDITS.txt').read()
-    + '\n' +
-    open('docs/CHANGES.txt').read()
-    + '\n')
+long_description = open("README.rst").read() + "\n" + \
+                   open(os.path.join("docs", "CREDITS.txt")).read() + "\n" + \
+                   open(os.path.join("docs", "CHANGES.txt")).read()
 
 setup(name='telesur.widgets',
       version=version,
       description="Contiene los widgets del sitio de teleSUR",
       long_description=long_description,
-      # Get more strings from
-      # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
+        "Environment :: Web Environment",
+        "Framework :: Plone",
         "Framework :: Plone :: 4.1",
+        "Intended Audience :: System Administrators",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Operating System :: OS Independent",
         "Programming Language :: JavaScript",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
+        "Topic :: Office/Business :: News/Diary",
+        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='',
       author='Joaquin Rosales',
