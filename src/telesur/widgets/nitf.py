@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from zope.app.component.hooks import getSite
 from zope.component import getMultiAdapter
 from Products.Five.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
@@ -436,13 +437,14 @@ class ContentRelationWidget(BaseWidget):
                                     obj=portal,
                                     query=source.navigation_tree_query,
                                     strategy=strategy)
-
-        data = data_temp.get('/Plone/articulos')
+        site = getSite().id
+        articulos_url = '/%s/articulos' % site
+        data = data_temp.get(articulos_url)
         for elem in data_temp:
-            if elem == '/Plone/articulos':
+            if elem == articulos_url:
                 continue
             else:
-                if 'children' in data_temp[elem]:
+                if 'children' in data_temp[elem]  and 'children' in data:
                     data['children'] += data_temp[elem]['children']
 
         data['children'].sort(key=lambda x:x['creation_date'], reverse=True)
